@@ -123,7 +123,7 @@
 #define wxHAS_KQUEUE 1
 
 #define WXWIN_OS_DESCRIPTION "Darwin 7.9.0 Power Macintosh"
-#define PACKAGE_BUGREPORT "wx-dev@lists.wxwidgets.org"
+#define PACKAGE_BUGREPORT "wx-dev@googlegroups.com"
 #define PACKAGE_NAME "wxWidgets"
 #define PACKAGE_STRING "wxWidgets 3.0.3"
 #define PACKAGE_TARNAME "wxwidgets"

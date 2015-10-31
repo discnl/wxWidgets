@@ -5,7 +5,6 @@ Welcome to the latest stable release of wxWidgets, a free and open
 source cross-platform C++ framework for writing advanced GUI
 applications using native controls.
 
-
 wxWidgets allows you to write native-looking GUI applications for
 all the major desktop platforms and also helps with abstracting
 the differences in the non-GUI aspects between them. It is free
@@ -14,25 +13,19 @@ with the full, easy to read and modify, source and extensive
 documentation and a collection of more than a hundred examples.
 You can learn more about wxWidgets at
 
-        http://www.wxwidgets.org/
+    https://www.wxwidgets.org/
 
 and read its documentation online at
 
-        http://docs.wxwidgets.org/3.0.3/
-
+    http://docs.wxwidgets.org/3.0.3/
 
 wxWidgets sources and binaries for the selected platforms are
 available for download from
 
-        https://sourceforge.net/projects/wxwindows/files/3.0.3/
-
-or
-
-        ftp://ftp.wxwidgets.org/pub/3.0.3/
+    https://github.com/wxWidgets/wxWidgets/releases/tag/v3.0.3/
 
 Please see the "Files" section below for the description of various
 files available at these locations.
-
 
 
 Changes in this release
@@ -207,11 +200,12 @@ Further information
 
 If you are looking for support, you can get it from
 
-- wxForum at http://forums.wxwidgets.org/
-- wx-users mailing list (http://www.wxwidgets.org/support/maillst2.htm)
-- #wxwidgets IRC channel
-- http://stackoverflow.com/ if you tag your question with "wxwidgets"
-
+- Mailing Lists: https://www.wxwidgets.org/support/mailing-lists/
+- Discussion Forums: https://forums.wxwidgets.org/
+- #wxwidgets IRC Channel: https://www.wxwidgets.org/support/irc/
+- Stack Overflow (tag your questions with "wxwidgets"):
+  https://stackoverflow.com/questions/tagged/wxwidgets
+- Please report bugs at http://trac.wxwidgets.org/newticket
 
 Have fun!
 
