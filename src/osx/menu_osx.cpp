@@ -558,6 +558,7 @@ static wxMenu *CreateAppleMenu()
             aboutLabel.Printf(_("About %s"), wxTheApp->GetAppDisplayName());
         else
             aboutLabel = _("About...");
+        aboutLabel += " (wx default)";
         appleMenu->Append( wxApp::s_macAboutMenuItemId, aboutLabel);
         appleMenu->AppendSeparator();
     }
@@ -565,7 +566,8 @@ static wxMenu *CreateAppleMenu()
     if ( wxApp::s_macPreferencesMenuItemId != wxID_NONE )
     {
         appleMenu->Append( wxApp::s_macPreferencesMenuItemId,
-                           _("Preferences...") + "\tCtrl+," );
+                           _("Preferences...") + " (wx default)" "\tCtrl+," );
+
         appleMenu->AppendSeparator();
     }
 
@@ -583,6 +585,7 @@ static wxMenu *CreateAppleMenu()
     // Do always add "Quit" item unconditionally however, it can't be disabled.
     wxString quitLabel;
     quitLabel = wxString::Format(_("Quit %s"), wxTheApp ? wxTheApp->GetAppDisplayName() : _("Application"));
+    quitLabel += " (wx default)";
     appleMenu->Append( wxApp::s_macExitMenuItemId, quitLabel + "\tCtrl+Q" );
 
     return appleMenu;
@@ -657,41 +660,52 @@ void wxMenuBar::MacUninstallMenuBar()
   }
 }
 
+/*
+Hide items in the apple menu that don't exist in the wx menubar. If they do
+exist change their label if it's different from the stock label.
+*/
+static void HandleAppleMenuItem(wxMenuBar *menuBar, wxMenu *appleMenu,
+    int menuId, int stockId)
+{
+    wxMenuItem *appleItem = appleMenu->FindItem(menuId);
+    if ( !appleItem )
+        return;
+
+    wxMenuItem *wxItem = menuBar->FindItem(menuId);
+    if ( !wxItem )
+    {
+        appleItem->GetPeer()->Hide();
+        return;
+    }
+    
+    wxString label = wxItem->GetItemLabel();
+
+    if (label != wxGetStockLabel(stockId,
+            wxSTOCK_WITH_ACCELERATOR | wxSTOCK_WITH_MNEMONIC) )
+    {
+        size_t pos = label.find('\t');
+        if (pos == std::string::npos)
+            pos = label.size();
+
+        label.insert(pos, " (user override)");
+
+        appleItem->SetItemLabel(label);
+    }
+}
+
 void wxMenuBar::MacInstallMenuBar()
 {
     if ( s_macInstalledMenuBar == this )
         return ;
 
     m_rootMenu->GetPeer()->MakeRoot();
-    
-    // hide items in the apple menu that don't exist in the wx menubar
-    
-    wxMenuItem* appleItem = NULL;
-    wxMenuItem* wxItem = NULL;
 
-    int menuid = wxApp::s_macAboutMenuItemId;
-    appleItem = m_appleMenu->FindItem(menuid);
-    wxItem = FindItem(menuid);
-    if ( appleItem != NULL )
-    {
-        if ( wxItem == NULL )
-            appleItem->GetPeer()->Hide();
-        else 
-            appleItem->SetItemLabel(wxItem->GetItemLabel());
-    }
-    
-    menuid = wxApp::s_macPreferencesMenuItemId;
-    appleItem = m_appleMenu->FindItem(menuid);
-    wxItem = FindItem(menuid);
-    if ( appleItem != NULL )
-    {
-        if ( wxItem == NULL )
-            appleItem->GetPeer()->Hide();
-        else 
-            appleItem->SetItemLabel(wxItem->GetItemLabel());
-    }
-    
-        
+    HandleAppleMenuItem(this, m_appleMenu, wxApp::s_macAboutMenuItemId, wxID_ABOUT);
+
+    HandleAppleMenuItem(this, m_appleMenu, wxApp::s_macPreferencesMenuItemId, wxID_PREFERENCES);
+
+    HandleAppleMenuItem(this, m_appleMenu, wxApp::s_macExitMenuItemId, wxID_EXIT);
+
 #if 0
 
     // if we have a mac help menu, clean it up before adding new items

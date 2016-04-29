@@ -38,11 +38,13 @@ wxMenuItem::wxMenuItem(wxMenu *pParentMenu,
 {
     wxASSERT_MSG( id != 0 || pSubMenu != NULL , wxT("A MenuItem ID of Zero does not work under Mac") ) ;
 
+/*
     // In other languages there is no difference in naming the Exit/Quit menu item between MacOS and Windows guidelines
     // therefore these item must not be translated
     if (pParentMenu != NULL && !pParentMenu->GetNoEventsMode())
         if ( wxStripMenuCodes(m_text).Upper() == wxT("EXIT") )
             m_text = wxT("Quit\tCtrl+Q") ;
+*/
 
     m_radioGroup.start = -1;
     m_isRadioGroupStart = false;
