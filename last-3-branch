@@ -1,0 +1,304 @@
+commit 7188a68e50acdb830fcda0e4e28b6151f229d03d
+Author: Dimitri Schoolwerth <dimitri@schoolwerth.com>
+Date:   Wed May 4 22:38:36 2016 +0400
+
+    Misc. ad hoc changes for v3.0.3 release test
+
+diff --git a/docs/changes.txt b/docs/changes.txt
+index 357baea..b0bf657 100644
+--- a/docs/changes.txt
++++ b/docs/changes.txt
+@@ -574,7 +574,7 @@ Major new features in this release
+ 
+ 
+ 
+-3.0.3: (released 2015-??-??)
++3.0.3: (released 2016-05-04)
+ ----------------------------
+ 
+ All:
+@@ -974,10 +974,10 @@ All (GUI):
+ - Support hexadecimal numbers in wxSpinCtrl.
+ - Respect window max size in wxBoxSizer (Nathan Ridge).
+ - Add support for searching in wxWebView for MSW and GTK (Allonii).
+-- Add generic wxFileSystem support to wxWebView with 
++- Add generic wxFileSystem support to wxWebView with
+   wxWebViewFSHandler (Nick Matthews).
+ - Add possibility to disable context menu in wxWebView.
+-- Add ability to register custom wxWebView backends using 
++- Add ability to register custom wxWebView backends using
+   wxWebView::RegisterFactory and a wxWebViewFactory derived class.
+ - Add possibility to hide and show again wxRibbonBar pages (wxBen).
+ - Add wxRibbonBar pages highlighting (wxBen).
+diff --git a/docs/doxygen/mainpages/manual.h b/docs/doxygen/mainpages/manual.h
+index dbba1cc..98bcf4e 100644
+--- a/docs/doxygen/mainpages/manual.h
++++ b/docs/doxygen/mainpages/manual.h
+@@ -14,7 +14,7 @@
+ @author Julian Smart, Vadim Zeitlin, Robin Dunn, Stefan Csomor,
+         Bryan Petty, Francesco Montorsi, Robert Roebling et al
+ 
+-@date October 6, 2014
++@date May 4, 2016
+ 
+ @n
+ 
+diff --git a/docs/publicity/announce.txt b/docs/publicity/announce.txt
+index 867c515..96d2356 100644
+--- a/docs/publicity/announce.txt
++++ b/docs/publicity/announce.txt
+@@ -1,15 +1,15 @@
+-October 6, 2014 -- The wxWidgets team is pleased to announce a
++May 4, 2016 -- The wxWidgets team is pleased to announce a
+ major new release of our open source framework for the development
+ of native cross-platform applications in C++.
+ 
+-wxWidgets 3.0.2 is a stable bug fix release in 3.0 branch and is
++wxWidgets 3.0.3 is a stable bug fix release in 3.0 branch and is
+ available at
+ 
+-        https://sourceforge.net/downloads/wxwindows/3.0.2/
++        https://github.com/wxWidgets/wxWidgets/releases/tag/v3.0.3
+ 
+ and at our FTP mirror at
+ 
+-        ftp://ftp.wxwidgets.org/pub/3.0.2/
++        ftp://ftp.wxwidgets.org/pub/3.0.3/
+ 
+ Please choose the archive format suitable for your platform, i.e. 7z
+ or ZIP for Windows platforms and tar.bz2 for the Unix systems
+@@ -22,7 +22,7 @@ as only sources, not binaries, are installed.
+ We also provide the pre-built versions of wxMSW libraries for the
+ selected compilers at
+ 
+-        https://sourceforge.net/downloads/wxwindows/3.0.2/binaries/
++        https://sourceforge.net/downloads/wxwindows/3.0.3/binaries/
+ 
+ Please see the README file there for the descriptions of the
+ individual files.
+@@ -31,7 +31,7 @@ individual files.
+ This is a bug fix release with no significant new features compared to
+ the previous 3.0.x releases and compatible with them at both the API
+ and the ABI level (i.e. all applications linked against earlier 3.0.x
+-DLLs or shared libraries will continue to work when using 3.0.2
++DLLs or shared libraries will continue to work when using 3.0.3
+ libraries).
+ 
+ Some of the changes:
+@@ -64,7 +64,7 @@ nevertheless made it into this release as well:
+ Other changes in this release are described in the file
+ docs/changes.txt available online at
+ 
+-    https://sourceforge.net/projects/wxwindows/files/3.0.2/changes.txt
++    https://raw.githubusercontent.com/wxWidgets/wxWidgets/v3.0.3/docs/changes.txt
+ 
+ This file also contains information about the changes in 3.0 compared
+ to earlier versions of wxWidgets, please read it, and especially its
+@@ -75,7 +75,7 @@ to earlier versions of wxWidgets, please read it, and especially its
+ 
+ 
+ 
+-We recommend that you upgrade to wxWidgets 3.0.2 if you already use an
++We recommend that you upgrade to wxWidgets 3.0.3 if you already use an
+ earlier wxWidgets 3.0.x release, the upgrade is completely transparent
+ and doesn't require any changes in the existing code. If you are still
+ using wxWidgets 2.8 or earlier, please consider updating to wxWidgets
+diff --git a/docs/readme.txt b/docs/readme.txt
+index 19b2cbb..18270ab 100644
+--- a/docs/readme.txt
++++ b/docs/readme.txt
+@@ -24,7 +24,7 @@ and read its documentation online at
+ wxWidgets sources and binaries for the selected platforms are
+ available for download from
+ 
+-        https://sourceforge.net/projects/wxwindows/files/3.0.3/
++        https://github.com/wxWidgets/wxWidgets/releases/tag/v3.0.3/
+ 
+ or
+ 
+@@ -74,7 +74,7 @@ nevertheless made it into this release as well:
+ Other changes in this release are described in the file
+ docs/changes.txt available online at
+ 
+-    https://sourceforge.net/projects/wxwindows/files/3.0.3/changes.txt
++    https://raw.githubusercontent.com/wxWidgets/wxWidgets/v3.0.3/docs/changes.txt
+ 
+ This file also contains information about the changes in 3.0 compared
+ to earlier versions of wxWidgets, please read it, and especially its
+diff --git a/docs/release_binaries.mdwn b/docs/release_binaries.mdwn
+index 4ceca6b..cc6fc1d 100644
+--- a/docs/release_binaries.mdwn
++++ b/docs/release_binaries.mdwn
+@@ -1,7 +1,7 @@
+-wxWidgets 3.0.2 Binaries
++wxWidgets 3.0.3 Binaries
+ ========================
+ 
+-This directory contains binary files for wxWidgets 3.0.2 release.
++This directory contains binary files for wxWidgets 3.0.3 release.
+ 
+ * Microsoft Visual C++ compiler versions 9.0, 10.0, 11.0 and 12.0
+   corresponding to marketing product names of Microsoft Visual Studio
+@@ -14,9 +14,9 @@ For Developers
+ --------------
+ 
+ For developing applications with wxWidgets you need to download the
+-compiler-independent wxWidgets-3.0.2_Headers.7z file (found in the
+-parent directory) and one of wxMSW-3.0.2-vcXXX_Dev.7z or
+-wxMSW-3.0.2_gccXXX_Dev.7z files depending on your compiler, its
++compiler-independent wxWidgets-3.0.3_Headers.7z file (found in the
++parent directory) and one of wxMSW-3.0.3-vcXXX_Dev.7z or
++wxMSW-3.0.3_gccXXX_Dev.7z files depending on your compiler, its
+ version and the target architecture (x86 if not specified or x64).
+ 
+ Unpack both files into the same directory so that "include" and "lib"
+@@ -30,15 +30,15 @@ symbols.
+ For End Users
+ -------------
+ 
+-End users may download one of wxMSW-3.0.2_vcXXX_ReleaseDLL.7z or
+-wxMSW-3.0.2_gccXXX_ReleaseDLL.7z files to get just the DLLs
++End users may download one of wxMSW-3.0.3_vcXXX_ReleaseDLL.7z or
++wxMSW-3.0.3_gccXXX_ReleaseDLL.7z files to get just the DLLs
+ required for running the applications using wxWidgets.
+ 
+ 
+ For Debugging
+ -------------
+ 
+-* Microsoft Visual C++ users: Files wxMSW-3.0.2_vcXXX_ReleasePDB.7z
++* Microsoft Visual C++ users: Files wxMSW-3.0.3_vcXXX_ReleasePDB.7z
+   contain the debug symbols for the release build of the DLLs. Download
+   them if you want to debug your own applications in release build or
+   if you want to get meaningful information from mini-dumps retrieved
+@@ -61,46 +61,46 @@ Check Sums
+ 
+ To verify your download please use the following sha1sums:
+ 
+-    d4de907d5cbbc6feabec3ae06b7cb875f2f552f6  wxMSW-3.0.2_gcc471TDM_Dev.7z
+-    55ff0cd21df57ad6d25895964c13e421f86c0781  wxMSW-3.0.2_gcc471TDM_ReleaseDLL.7z
+-    5856429ba46f29689e95a86b97a741ed42ebad98  wxMSW-3.0.2_gcc471TDM_x64_Dev.7z
+-    6c4289652aa06b1ff2e28e72250c3ecd61b36acd  wxMSW-3.0.2_gcc471TDM_x64_ReleaseDLL.7z
+-    e9e09cfe9c64c528a4e5b825f1d4eb93d41da490  wxMSW-3.0.2_gcc481TDM_Dev.7z
+-    1f5e03d3e07812270fdd15f7ea47ccd43cb41f01  wxMSW-3.0.2_gcc481TDM_ReleaseDLL.7z
+-    ff2a74d4298f58f7a1f9412ee632c8c695ca7efe  wxMSW-3.0.2_gcc481TDM_x64_Dev.7z
+-    713860af5d001e3affdfae4003c3479fcceae72d  wxMSW-3.0.2_gcc481TDM_x64_ReleaseDLL.7z
+-    c675da612bc702c66cc985ac02262a0529df34b0  wxMSW-3.0.2_vc90_Dev.7z
+-    2ee0d4c15bf4453ad5f3c3656a5a76bb489ed267  wxMSW-3.0.2_vc90_ReleaseDLL.7z
+-    1006789fdff272058803c28ec77aff328dab2de2  wxMSW-3.0.2_vc90_ReleasePDB.7z
+-    1c815bafd9e8506549800354e44b22af60631941  wxMSW-3.0.2_vc90_x64_Dev.7z
+-    2830484c43193e72f994adc3601438fde354fb4c  wxMSW-3.0.2_vc90_x64_ReleaseDLL.7z
+-    9a1e87141345c818f58e523766c5e42ab9ecfb02  wxMSW-3.0.2_vc90_x64_ReleaseDLL.msi
+-    1c9094ab4fa93875477ceb99d72db2a904c48136  wxMSW-3.0.2_vc90_x64_ReleasePDB.7z
+-    5d1c2ad76c85bba32cc6329446bc70632af245ae  wxMSW-3.0.2_vc90_x86_ReleaseDLL.msi
+-    d51026d681916f86cd34885cccc4408e8b0b3962  wxMSW-3.0.2_vc100_Dev.7z
+-    f1fd09ab3ced110afd0ecaa191117533981928ed  wxMSW-3.0.2_vc100_ReleaseDLL.7z
+-    da515bdf35a2aa8972614865ab4687da4727fae7  wxMSW-3.0.2_vc100_ReleasePDB.7z
+-    deec659658076e46e794d73b2b4f4cf812a27278  wxMSW-3.0.2_vc100_x64_Dev.7z
+-    7c9c0a710112f993655a0b51a9dc63206897d553  wxMSW-3.0.2_vc100_x64_ReleaseDLL.7z
+-    ea22edf6983a282513571ee2901ed18035aadf80  wxMSW-3.0.2_vc100_x64_ReleaseDLL.msi
+-    1f2eeecdf2355f89c70fa94c364afd3267b1f51f  wxMSW-3.0.2_vc100_x64_ReleasePDB.7z
+-    00b47fc629868d3634e13eefc4adc08d6e822853  wxMSW-3.0.2_vc100_x86_ReleaseDLL.msi
+-    33e9e9216b1c0fafc44fd681520a746465eb30d6  wxMSW-3.0.2_vc110_Dev.7z
+-    e38f4f7c00ba58bf90afa53474ca0fdafa8ea791  wxMSW-3.0.2_vc110_ReleaseDLL.7z
+-    d5ce2cf60829b4fda83439975ff4f7d857dda92d  wxMSW-3.0.2_vc110_ReleasePDB.7z
+-    46e5a66a65db34107a089d1aef326c25cafbe7af  wxMSW-3.0.2_vc110_x64_Dev.7z
+-    fff956c21826e5268b1533fc0b4fad6016963be0  wxMSW-3.0.2_vc110_x64_ReleaseDLL.7z
+-    2c3b6f6e63a40027bca9601d7668999dec596013  wxMSW-3.0.2_vc110_x64_ReleaseDLL.msi
+-    8a0c6e9bd844e204e26955573049fb17ce704d60  wxMSW-3.0.2_vc110_x64_ReleasePDB.7z
+-    98ac8e4163d972610267fa8e070adb9b5b4e1f13  wxMSW-3.0.2_vc110_x86_ReleaseDLL.msi
+-    87bee27e5b15852cb81862bb5245c751a70ee9ac  wxMSW-3.0.2_vc120_Dev.7z
+-    f1cc74b0a558af80ceac350a5777a4a54d226315  wxMSW-3.0.2_vc120_ReleaseDLL.7z
+-    cb4e92c6bbd4a25b7d92f8490dd85482e1d32c7d  wxMSW-3.0.2_vc120_ReleasePDB.7z
+-    f7c8dad92deed936faecc8b59e13a6ac1c4fd4e4  wxMSW-3.0.2_vc120_x64_Dev.7z
+-    77f2ac56edf5739ed7af261698069776cfef86d5  wxMSW-3.0.2_vc120_x64_ReleaseDLL.7z
+-    4a33022c59f484d4da6979581e0ba409c804764f  wxMSW-3.0.2_vc120_x64_ReleaseDLL.msi
+-    51e047f1576a61d5b5e019b6579b12ab4bdfb941  wxMSW-3.0.2_vc120_x64_ReleasePDB.7z
+-    a31f3af0de6dd331dd0984ebaeef643f3f856aba  wxMSW-3.0.2_vc120_x86_ReleaseDLL.msi
++    d4de907d5cbbc6feabec3ae06b7cb875f2f552f6  wxMSW-3.0.3_gcc471TDM_Dev.7z
++    55ff0cd21df57ad6d25895964c13e421f86c0781  wxMSW-3.0.3_gcc471TDM_ReleaseDLL.7z
++    5856429ba46f29689e95a86b97a741ed42ebad98  wxMSW-3.0.3_gcc471TDM_x64_Dev.7z
++    6c4289652aa06b1ff2e28e72250c3ecd61b36acd  wxMSW-3.0.3_gcc471TDM_x64_ReleaseDLL.7z
++    e9e09cfe9c64c528a4e5b825f1d4eb93d41da490  wxMSW-3.0.3_gcc481TDM_Dev.7z
++    1f5e03d3e07812270fdd15f7ea47ccd43cb41f01  wxMSW-3.0.3_gcc481TDM_ReleaseDLL.7z
++    ff2a74d4298f58f7a1f9412ee632c8c695ca7efe  wxMSW-3.0.3_gcc481TDM_x64_Dev.7z
++    713860af5d001e3affdfae4003c3479fcceae72d  wxMSW-3.0.3_gcc481TDM_x64_ReleaseDLL.7z
++    c675da612bc702c66cc985ac02262a0529df34b0  wxMSW-3.0.3_vc90_Dev.7z
++    2ee0d4c15bf4453ad5f3c3656a5a76bb489ed267  wxMSW-3.0.3_vc90_ReleaseDLL.7z
++    1006789fdff272058803c28ec77aff328dab2de2  wxMSW-3.0.3_vc90_ReleasePDB.7z
++    1c815bafd9e8506549800354e44b22af60631941  wxMSW-3.0.3_vc90_x64_Dev.7z
++    2830484c43193e72f994adc3601438fde354fb4c  wxMSW-3.0.3_vc90_x64_ReleaseDLL.7z
++    9a1e87141345c818f58e523766c5e42ab9ecfb02  wxMSW-3.0.3_vc90_x64_ReleaseDLL.msi
++    1c9094ab4fa93875477ceb99d72db2a904c48136  wxMSW-3.0.3_vc90_x64_ReleasePDB.7z
++    5d1c2ad76c85bba32cc6329446bc70632af245ae  wxMSW-3.0.3_vc90_x86_ReleaseDLL.msi
++    d51026d681916f86cd34885cccc4408e8b0b3962  wxMSW-3.0.3_vc100_Dev.7z
++    f1fd09ab3ced110afd0ecaa191117533981928ed  wxMSW-3.0.3_vc100_ReleaseDLL.7z
++    da515bdf35a2aa8972614865ab4687da4727fae7  wxMSW-3.0.3_vc100_ReleasePDB.7z
++    deec659658076e46e794d73b2b4f4cf812a27278  wxMSW-3.0.3_vc100_x64_Dev.7z
++    7c9c0a710112f993655a0b51a9dc63206897d553  wxMSW-3.0.3_vc100_x64_ReleaseDLL.7z
++    ea22edf6983a282513571ee2901ed18035aadf80  wxMSW-3.0.3_vc100_x64_ReleaseDLL.msi
++    1f2eeecdf2355f89c70fa94c364afd3267b1f51f  wxMSW-3.0.3_vc100_x64_ReleasePDB.7z
++    00b47fc629868d3634e13eefc4adc08d6e822853  wxMSW-3.0.3_vc100_x86_ReleaseDLL.msi
++    33e9e9216b1c0fafc44fd681520a746465eb30d6  wxMSW-3.0.3_vc110_Dev.7z
++    e38f4f7c00ba58bf90afa53474ca0fdafa8ea791  wxMSW-3.0.3_vc110_ReleaseDLL.7z
++    d5ce2cf60829b4fda83439975ff4f7d857dda92d  wxMSW-3.0.3_vc110_ReleasePDB.7z
++    46e5a66a65db34107a089d1aef326c25cafbe7af  wxMSW-3.0.3_vc110_x64_Dev.7z
++    fff956c21826e5268b1533fc0b4fad6016963be0  wxMSW-3.0.3_vc110_x64_ReleaseDLL.7z
++    2c3b6f6e63a40027bca9601d7668999dec596013  wxMSW-3.0.3_vc110_x64_ReleaseDLL.msi
++    8a0c6e9bd844e204e26955573049fb17ce704d60  wxMSW-3.0.3_vc110_x64_ReleasePDB.7z
++    98ac8e4163d972610267fa8e070adb9b5b4e1f13  wxMSW-3.0.3_vc110_x86_ReleaseDLL.msi
++    87bee27e5b15852cb81862bb5245c751a70ee9ac  wxMSW-3.0.3_vc120_Dev.7z
++    f1cc74b0a558af80ceac350a5777a4a54d226315  wxMSW-3.0.3_vc120_ReleaseDLL.7z
++    cb4e92c6bbd4a25b7d92f8490dd85482e1d32c7d  wxMSW-3.0.3_vc120_ReleasePDB.7z
++    f7c8dad92deed936faecc8b59e13a6ac1c4fd4e4  wxMSW-3.0.3_vc120_x64_Dev.7z
++    77f2ac56edf5739ed7af261698069776cfef86d5  wxMSW-3.0.3_vc120_x64_ReleaseDLL.7z
++    4a33022c59f484d4da6979581e0ba409c804764f  wxMSW-3.0.3_vc120_x64_ReleaseDLL.msi
++    51e047f1576a61d5b5e019b6579b12ab4bdfb941  wxMSW-3.0.3_vc120_x64_ReleasePDB.7z
++    a31f3af0de6dd331dd0984ebaeef643f3f856aba  wxMSW-3.0.3_vc120_x86_ReleaseDLL.msi
+ 
+ 
+ Credit
+diff --git a/docs/release_files.mdwn b/docs/release_files.mdwn
+index 57654c4..fb9cb0b 100644
+--- a/docs/release_files.mdwn
++++ b/docs/release_files.mdwn
+@@ -1,15 +1,15 @@
+-wxWidgets 3.0.2
++wxWidgets 3.0.3
+ ===============
+ 
+ This directory contains the files containing the sources and documentation of
+-wxWidgets 3.0.2 release. Please see the binaries subdirectory for the binaries
++wxWidgets 3.0.3 release. Please see the binaries subdirectory for the binaries
+ for the selected platforms/compilers.
+ 
+ Please notice that since the 2.9 series only a single source distribution is
+ provided instead of the multiple distributions containing only the files for
+-each port as was done before. So you only need to download wxWidgets-3.0.2.zip
++each port as was done before. So you only need to download wxWidgets-3.0.3.zip
+ (or .7z for much smaller archive size) for Microsoft Windows systems or
+-wxWidgets-3.0.2.tar.bz2 for Unix ones, including Mac OS X. The only difference
++wxWidgets-3.0.3.tar.bz2 for Unix ones, including Mac OS X. The only difference
+ between these files is that the ZIP (and 7z) archives contain files with DOS
+ line endings while the tar balls contain files with Unix line endings.
+ 
+@@ -30,11 +30,11 @@ Check Sums
+ 
+ To verify your download please use the following sha1sums:
+ 
+-    8cc75cc76aca18cdfbf66283015af620b5457014  wxWidgets-3.0.2.7z
+-    6461eab4428c0a8b9e41781b8787510484dea800  wxWidgets-3.0.2.tar.bz2
+-    e9e5aeb0cabd998db737ffb0af165e7a8e02d68f  wxWidgets-3.0.2.zip
+-    9db3068925a7c928062e3db59ab1aca5b0e654a9  wxWidgets-3.0.2-docs-html.tar.bz2
+-    a58c1625679d78ec20cea4542dc1382b6a7a01e8  wxWidgets-3.0.2-docs-html.zip
+-    591e706da0d2358ff392adaff706c9df2bd42a10  wxWidgets-3.0.2-docs-chm.zip
+-    7670804d478a5b7008f5d7a82c30f0c6bfd358bf  wxWidgets-3.0.2_headers.7z
+-    ceac35caeab6a0d3bdc6715b23dde82812ed8f7f  wxMSW-3.0.2-Setup.exe
++    8cc75cc76aca18cdfbf66283015af620b5457014  wxWidgets-3.0.3.7z
++    6461eab4428c0a8b9e41781b8787510484dea800  wxWidgets-3.0.3.tar.bz2
++    e9e5aeb0cabd998db737ffb0af165e7a8e02d68f  wxWidgets-3.0.3.zip
++    9db3068925a7c928062e3db59ab1aca5b0e654a9  wxWidgets-3.0.3-docs-html.tar.bz2
++    a58c1625679d78ec20cea4542dc1382b6a7a01e8  wxWidgets-3.0.3-docs-html.zip
++    591e706da0d2358ff392adaff706c9df2bd42a10  wxWidgets-3.0.3-docs-chm.zip
++    7670804d478a5b7008f5d7a82c30f0c6bfd358bf  wxWidgets-3.0.3_headers.7z
++    ceac35caeab6a0d3bdc6715b23dde82812ed8f7f  wxMSW-3.0.3-Setup.exe

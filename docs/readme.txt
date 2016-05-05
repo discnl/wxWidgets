@@ -24,7 +24,7 @@ and read its documentation online at
 wxWidgets sources and binaries for the selected platforms are
 available for download from
 
-        https://sourceforge.net/projects/wxwindows/files/3.0.3/
+        https://github.com/wxWidgets/wxWidgets/releases/tag/v3.0.3/
 
 or
 
@@ -74,7 +74,7 @@ nevertheless made it into this release as well:
 Other changes in this release are described in the file
 docs/changes.txt available online at
 
-    https://sourceforge.net/projects/wxwindows/files/3.0.3/changes.txt
+    https://raw.githubusercontent.com/wxWidgets/wxWidgets/v3.0.3/docs/changes.txt
 
 This file also contains information about the changes in 3.0 compared
 to earlier versions of wxWidgets, please read it, and especially its
