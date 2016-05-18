@@ -1413,6 +1413,9 @@
 // Compile wxUIActionSimulator class?
 #define wxUSE_UIACTIONSIMULATOR 1
 
+// Use the XTest extension for wxUIActionSimulator?
+#define wxUSE_XTEST 1
+
 // ----------------------------------------------------------------------------
 // wxDC classes for various output formats
 // ----------------------------------------------------------------------------
