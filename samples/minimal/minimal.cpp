@@ -26,6 +26,8 @@
     #include "wx/wx.h"
 #endif
 
+#include "wx/dataview.h"
+
 // ----------------------------------------------------------------------------
 // resources
 // ----------------------------------------------------------------------------
@@ -63,8 +65,31 @@ public:
     // event handlers (these functions should _not_ be virtual)
     void OnQuit(wxCommandEvent& event);
     void OnAbout(wxCommandEvent& event);
+    void OnButton(wxCommandEvent &event)
+    {
+        if (event.GetId() == wxID_ADD)
+        {
+            wxString itemText = m_edit->GetValue();
+            if ( m_dataview->GetItemCount() )
+            {
+                m_dataview->SetTextValue(itemText, 0, 0);
+            }
+            else
+            {
+                wxVector<wxVariant> data;
+                data.push_back(itemText);
+                data.push_back("123");
+                m_dataview->AppendItem(data);
+            }
+        }
+        else
+            m_dataview->SendSizeEvent();
+}
 
 private:
+    wxDataViewListCtrl *m_dataview;
+    wxTextCtrl *m_edit;
+
     // any class wishing to process wxWidgets events must use this macro
     wxDECLARE_EVENT_TABLE();
 };
@@ -161,7 +186,7 @@ MyFrame::MyFrame(const wxString& title)
 
     // ... and attach this menu bar to the frame
     SetMenuBar(menuBar);
-#else // !wxUSE_MENUBAR
+#elif 0 // !wxUSE_MENUBAR
     // If menus are not available add a button to access the about box
     wxSizer* sizer = new wxBoxSizer(wxHORIZONTAL);
     wxButton* aboutBtn = new wxButton(this, wxID_ANY, "About...");
@@ -175,8 +200,100 @@ MyFrame::MyFrame(const wxString& title)
     CreateStatusBar(2);
     SetStatusText("Welcome to wxWidgets!");
 #endif // wxUSE_STATUSBAR
-}
 
+// Use test 1 by default (default width + autosize).
+#define COL_TEST 1
+
+// Regardless of test type the right column should always autosize and, because
+// wxALIGN_RIGHT is used (but not part of the problem), the text should be
+// on the right side of the window. If the column width doesn't update, then
+// pressing the "SendSizeEvent()"" button ensures a correct update.
+
+    int colWidths[2] = {
+#if COL_TEST == 0
+
+// No explicit auto-sizing columns. The last column should autosize and does
+// correctly.
+        wxCOL_WIDTH_DEFAULT, wxCOL_WIDTH_DEFAULT
+
+#elif COL_TEST == 1
+
+// Only column 1 autosizes.
+
+// Simplest case that bugs for me anywhere as it doesn't autosize column 1
+// when appending or setting. Instead the column is an exact fit.
+        wxCOL_WIDTH_DEFAULT, wxCOL_WIDTH_AUTOSIZE
+
+#elif COL_TEST == 2
+
+// Same behaviour as 1. Column 0 does autosize correctly.
+        wxCOL_WIDTH_AUTOSIZE, wxCOL_WIDTH_AUTOSIZE
+
+#elif COL_TEST == 3
+
+// Like Igor's sample: Only first column autosizes.
+
+// While the original sample bugs for me on (only) actual machines, I can't
+// get it to bug here as-is. But if I create the below button before
+// the DVC and change sizer stuff then it does bug... (see two more
+// "COL_TEST == 3" checks below).
+
+// Behaviour:
+// Column 1 is autosized but isn't wide enough, it's off by about column 0's
+// width. Making column 0's text wider makes column 1 shift to the right, and
+// making column 0 shorter makes column 1 move into view more.
+        wxCOL_WIDTH_AUTOSIZE, wxCOL_WIDTH_DEFAULT
+
+#else
+#   error Nope
+#endif
+    };
+
+    wxPanel *panel = new wxPanel(this);
+
+#if COL_TEST == 3
+    // MUST create in this order for this test to be able to bug (?).
+    wxButton *btn = new wxButton(panel, wxID_ADD, "Set Col 0 Text");
+    m_dataview = new wxDataViewListCtrl(panel, wxID_ANY);
+#else
+    m_dataview = new wxDataViewListCtrl(panel, wxID_ANY);
+    wxButton *btn = new wxButton(panel, wxID_ADD, "Set Col 0 Text");
+#endif
+
+    m_dataview->AppendTextColumn("", wxDATAVIEW_CELL_INERT, colWidths[0]);
+    m_dataview->AppendTextColumn("", wxDATAVIEW_CELL_INERT, colWidths[1], wxALIGN_RIGHT);
+
+    Bind(wxEVT_BUTTON, &MyFrame::OnButton, this);
+
+    const wxString col0Text = "abc";
+
+#if 0
+    // Enable to test with initial value (works).
+    wxVector<wxVariant> data;
+    data.push_back(col0Text);
+    data.push_back("123");
+    m_dataview->AppendItem( data );
+#endif
+
+    wxSizer *sizer = new wxBoxSizer(wxVERTICAL);
+
+    sizer->Add(m_dataview, wxSizerFlags().Expand());
+
+    wxSizer *hsizer = new wxBoxSizer(wxHORIZONTAL);
+#if COL_TEST == 3
+        // MUST add to sizer and not hsizer for this test to be able to bug (?).
+        sizer->Add(btn);
+#else
+        hsizer->Add(btn);
+#endif
+        m_edit = new wxTextCtrl(panel, wxID_ANY, col0Text);
+        hsizer->Add(m_edit, wxSizerFlags(1));
+        hsizer->AddStretchSpacer();
+        hsizer->Add(new wxButton(panel, wxID_ANY, "SendSizeEvent()"));
+
+    sizer->Add(hsizer, wxSizerFlags().Expand());
+    panel->SetSizer(sizer);
+}
 
 // event handlers
 
