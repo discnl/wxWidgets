@@ -3299,6 +3299,23 @@ bool wxDataViewMainWindow::DoItemChanged(const wxDataViewItem & item, int view_c
     {
         column = m_owner->GetColumn(view_column);
         GetOwner()->InvalidateColBestWidth(view_column);
+
+        bool invalidatedOtherCols = false;
+        for ( unsigned col = 0; col < GetOwner()->GetColumnCount(); ++col )
+        {
+            const wxDataViewColumn *column = GetOwner()->GetColumn(col);
+            if ( column->IsHidden() )
+                continue;      // skip it!
+
+            if ( column->IsAutoSizing() )
+            {
+                invalidatedOtherCols = true;
+                GetOwner()->InvalidateColBestWidth(col);
+            }
+        }
+
+        if ( invalidatedOtherCols )
+            UpdateDisplay();
     }
 
     // Update the displayed value(s).

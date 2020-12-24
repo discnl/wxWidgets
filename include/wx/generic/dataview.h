@@ -147,6 +147,11 @@ public:
 
     virtual int WXGetSpecifiedWidth() const wxOVERRIDE;
 
+    bool IsAutoSizing() const
+    {
+        return m_manuallySetWidth == wxCOL_WIDTH_AUTOSIZE;
+    }
+
 private:
     // common part of all ctors
     void Init(int width, wxAlignment align, int flags);
