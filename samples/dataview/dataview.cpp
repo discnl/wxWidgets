@@ -599,8 +599,8 @@ MyFrame::MyFrame(wxFrame *frame, const wxString &title, int x, int y, int w, int
     const wxSizerFlags border = wxSizerFlags().DoubleBorder();
 
     wxBoxSizer *button_sizer = new wxBoxSizer( wxHORIZONTAL );
-    button_sizer->Add( new wxButton( firstPanel, ID_ADD_MOZART,  "Add Mozart"),             border );
-    button_sizer->Add( new wxButton( firstPanel, ID_DELETE_SEL,  "Delete selected"),        border );
+    button_sizer->Add( new wxButton( firstPanel, ID_ADD_MOZART,  "Set Mozart"),             border );
+    button_sizer->Add( new wxButton( firstPanel, ID_DELETE_SEL,  "SendSizeEvent()"),        border );
     button_sizer->Add( new wxButton( firstPanel, ID_DELETE_YEAR, "Delete \"Year\" column"), border );
     button_sizer->Add( new wxButton( firstPanel, ID_SELECT_NINTH,"Select ninth symphony"),  border );
     button_sizer->Add( new wxButton( firstPanel, ID_COLLAPSE,    "Collapse"),               border );
@@ -752,6 +752,23 @@ MyFrame::~MyFrame()
     delete wxLog::SetActiveTarget(m_logOld);
 }
 
+
+static void AddListCtrlItem(wxDataViewListCtrl *dv)
+{
+    wxString itemText = "Mozart";
+    if ( dv->GetItemCount() )
+    {
+        dv->SetTextValue(itemText, 0, 0);
+    }
+    else
+    {
+        wxVector<wxVariant> data;
+        data.push_back(itemText);
+        data.push_back("abc");
+        dv->AppendItem(data);
+    }
+}
+
 void MyFrame::BuildDataViewCtrl(wxPanel* parent, unsigned int nPanel, unsigned long style)
 {
     wxASSERT(!m_ctrl[nPanel]); // should only be initialized once
@@ -760,9 +777,22 @@ void MyFrame::BuildDataViewCtrl(wxPanel* parent, unsigned int nPanel, unsigned l
     {
     case Page_Music:
         {
-            m_ctrl[Page_Music] =
-                new wxDataViewCtrl( parent, ID_MUSIC_CTRL, wxDefaultPosition,
-                                    wxDefaultSize, style );
+            wxDataViewListCtrl *lc = new wxDataViewListCtrl( parent, wxID_ANY);
+
+            lc->AppendTextColumn("", wxDATAVIEW_CELL_INERT, wxCOL_WIDTH_DEFAULT);
+            // wxALIGN_RIGHT is merely used here to make differences more
+            // visible. Also bug without right alignment.
+            lc->AppendTextColumn("", wxDATAVIEW_CELL_INERT, wxCOL_WIDTH_AUTOSIZE, wxALIGN_RIGHT);
+
+#if 0
+            // Enable to have initial item which then results in proper extended
+            // width for the auto sizing column, until pressing "Set Mozart"
+            // button.
+            AddListCtrlItem(lc);
+#endif
+
+            m_ctrl[Page_Music] = lc;
+#if 0
             m_ctrl[Page_Music]->Bind(wxEVT_CHAR, &MyFrame::OnDataViewChar, this);
 
             m_music_model = new MyMusicTreeModel;
@@ -837,6 +867,7 @@ void MyFrame::BuildDataViewCtrl(wxPanel* parent, unsigned int nPanel, unsigned l
 
             // select initially the ninth symphony:
             m_ctrl[Page_Music]->Select(m_music_model->GetNinthItem());
+#endif
         }
         break;
 
@@ -1315,7 +1346,7 @@ void MyFrame::OnDrop( wxDataViewEvent &event )
 
 void MyFrame::OnAddMozart( wxCommandEvent& WXUNUSED(event) )
 {
-    m_music_model->AddToClassical( "Eine kleine Nachtmusik", "Wolfgang Mozart", 1787 );
+    AddListCtrlItem((wxDataViewListCtrl *) m_ctrl[Page_Music]);
 }
 
 void MyFrame::DeleteSelectedItems()
@@ -1329,7 +1360,7 @@ void MyFrame::DeleteSelectedItems()
 
 void MyFrame::OnDeleteSelected( wxCommandEvent& WXUNUSED(event) )
 {
-    DeleteSelectedItems();
+    m_ctrl[Page_Music]->SendSizeEvent();
 }
 
 void MyFrame::OnDeleteYear( wxCommandEvent& WXUNUSED(event) )
