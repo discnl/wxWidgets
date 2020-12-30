@@ -29,7 +29,6 @@ struct wxGridCellWithAttr
     wxGridCellWithAttr(int row, int col, wxGridCellAttr *attr_)
         : coords(row, col), attr(attr_)
     {
-        wxASSERT( attr );
     }
 
     wxGridCellWithAttr(const wxGridCellWithAttr& other)
@@ -64,15 +63,36 @@ struct wxGridCellWithAttr
 
     ~wxGridCellWithAttr()
     {
-        attr->DecRef();
+        if (attr)
+            attr->DecRef();
     }
 
     wxGridCellCoords coords;
     wxGridCellAttr  *attr;
 };
 
-WX_DECLARE_OBJARRAY_WITH_DECL(wxGridCellWithAttr, wxGridCellWithAttrArray,
-                              class WXDLLIMPEXP_ADV);
+static int CompareGridCellWithAttr(wxGridCellWithAttr *c1, wxGridCellWithAttr *c2)
+{
+    const int row1 = c1->coords.GetRow();
+    const int row2 = c2->coords.GetRow();
+
+    if (row1 < row2)
+        return -1;
+    else if (row1 > row2)
+        return 1;
+
+    const int col1 = c1->coords.GetCol();
+    const int col2 = c2->coords.GetCol();
+
+    if (col1 < col2)
+        return -1;
+    else if (col1 > col2)
+        return 1;
+
+    return 0;
+}
+
+WX_DEFINE_SORTED_USER_EXPORTED_ARRAY(wxGridCellWithAttr *, wxGridCellWithAttrArray, WXDLLIMPEXP_ADV);
 
 
 // ----------------------------------------------------------------------------
@@ -468,6 +488,15 @@ private:
 class WXDLLIMPEXP_ADV wxGridCellAttrData
 {
 public:
+    wxGridCellAttrData() : m_attrs(CompareGridCellWithAttr)
+    {
+    }
+
+    ~wxGridCellAttrData()
+    {
+        WX_CLEAR_ARRAY(m_attrs);
+    }
+
     void SetAttr(wxGridCellAttr *attr, int row, int col);
     wxGridCellAttr *GetAttr(int row, int col) const;
     void UpdateAttrRows( size_t pos, int numRows );

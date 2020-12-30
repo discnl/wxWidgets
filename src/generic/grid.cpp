@@ -124,7 +124,6 @@ const int GRID_TEXT_MARGIN = 1;
 #include "wx/arrimpl.cpp"
 
 WX_DEFINE_OBJARRAY(wxGridCellCoordsArray)
-WX_DEFINE_OBJARRAY(wxGridCellWithAttrArray)
 
 // ----------------------------------------------------------------------------
 // events
@@ -764,11 +763,12 @@ void wxGridCellAttrData::SetAttr(wxGridCellAttr *attr, int row, int col)
         if ( attr )
         {
             // change the attribute
-            m_attrs[(size_t)n].ChangeAttr(attr);
+            m_attrs[(size_t)n]->ChangeAttr(attr);
         }
         else
         {
             // remove this attribute
+            delete m_attrs[(size_t)n];
             m_attrs.RemoveAt((size_t)n);
         }
     }
@@ -781,7 +781,7 @@ wxGridCellAttr *wxGridCellAttrData::GetAttr(int row, int col) const
     int n = FindIndex(row, col);
     if ( n != wxNOT_FOUND )
     {
-        attr = m_attrs[(size_t)n].attr;
+        attr = m_attrs[(size_t)n]->attr;
         attr->IncRef();
     }
 
@@ -793,7 +793,7 @@ void wxGridCellAttrData::UpdateAttrRows( size_t pos, int numRows )
     size_t count = m_attrs.GetCount();
     for ( size_t n = 0; n < count; n++ )
     {
-        wxGridCellCoords& coords = m_attrs[n].coords;
+        wxGridCellCoords& coords = m_attrs[n]->coords;
         wxCoord row = coords.GetRow();
         if ((size_t)row >= pos)
         {
@@ -827,7 +827,7 @@ void wxGridCellAttrData::UpdateAttrCols( size_t pos, int numCols )
     size_t count = m_attrs.GetCount();
     for ( size_t n = 0; n < count; n++ )
     {
-        wxGridCellCoords& coords = m_attrs[n].coords;
+        wxGridCellCoords& coords = m_attrs[n]->coords;
         wxCoord col = coords.GetCol();
         if ( (size_t)col >= pos )
         {
@@ -858,17 +858,8 @@ void wxGridCellAttrData::UpdateAttrCols( size_t pos, int numCols )
 
 int wxGridCellAttrData::FindIndex(int row, int col) const
 {
-    size_t count = m_attrs.GetCount();
-    for ( size_t n = 0; n < count; n++ )
-    {
-        const wxGridCellCoords& coords = m_attrs[n].coords;
-        if ( (coords.GetRow() == row) && (coords.GetCol() == col) )
-        {
-            return n;
-        }
-    }
-
-    return wxNOT_FOUND;
+    wxGridCellWithAttr attr(row, col, NULL);
+    return m_attrs.Index(&attr);
 }
 
 // ----------------------------------------------------------------------------
