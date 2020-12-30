@@ -293,6 +293,7 @@ wxBEGIN_EVENT_TABLE( GridFrame, wxFrame )
     EVT_MENU( ID_AUTOSIZECOLS, GridFrame::AutoSizeCols )
     EVT_MENU( ID_CELLOVERFLOW, GridFrame::CellOverflow )
     EVT_MENU( ID_RESIZECELL, GridFrame::ResizeCell )
+    EVT_MENU( ID_TOGGLE_CHECKERBOARD, GridFrame::ToggleCheckerboard )
     EVT_MENU( ID_SETLABELCOLOUR, GridFrame::SetLabelColour )
     EVT_MENU( ID_SETLABELTEXTCOLOUR, GridFrame::SetLabelTextColour )
     EVT_MENU( ID_SETLABEL_FONT, GridFrame::SetLabelFont )
@@ -443,6 +444,7 @@ GridFrame::GridFrame()
     viewMenu->AppendCheckItem(ID_AUTOSIZECOLS, "&Auto-size cols");
     viewMenu->AppendCheckItem(ID_CELLOVERFLOW, "&Overflow cells");
     viewMenu->AppendCheckItem(ID_RESIZECELL, "&Resize cell (7,1)");
+    viewMenu->AppendCheckItem(ID_TOGGLE_CHECKERBOARD, "Toggle Checker&board");
     viewMenu->Append(ID_HIDECOL, "&Hide column A");
     viewMenu->Append(ID_SHOWCOL, "&Show column A");
     viewMenu->Append(ID_HIDEROW, "&Hide row 2");
@@ -2776,4 +2778,22 @@ void GridFrame::HideRow( wxCommandEvent& WXUNUSED(event) )
 void GridFrame::ShowRow( wxCommandEvent& WXUNUSED(event) )
 {
     grid->ShowRow(1);
+}
+
+void GridFrame::ToggleCheckerboard( wxCommandEvent& WXUNUSED(event) )
+{
+    static bool apply = false;
+    apply = !apply;
+
+    for ( int row = 0; row < grid->GetNumberRows(); ++row )
+        for ( int col = 0; col < grid->GetNumberCols(); ++col )
+            if ( (row ^ col) & 1 )
+            {
+                if ( apply )
+                    grid->SetCellBackgroundColour(row, col, *wxLIGHT_GREY);
+                else
+                    grid->SetAttr(row, col, NULL);
+            }
+
+    grid->Refresh();
 }
