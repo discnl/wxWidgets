@@ -29,6 +29,7 @@ struct wxGridCellWithAttr
     wxGridCellWithAttr(int row, int col, wxGridCellAttr *attr_)
         : coords(row, col), attr(attr_)
     {
+        wxASSERT( attr );
     }
 
     wxGridCellWithAttr(const wxGridCellWithAttr& other)
@@ -69,6 +70,15 @@ struct wxGridCellWithAttr
 
     wxGridCellCoords coords;
     wxGridCellAttr  *attr;
+
+private:
+    friend class wxGridCellAttrData;
+
+    // Only used by wxGridCellAttrData::FindIndex() for facilating lookups.
+    wxGridCellWithAttr(int row, int col) : coords(row, col), attr(NULL)
+    {
+    }
+
 };
 
 static int CompareGridCellWithAttr(wxGridCellWithAttr *c1, wxGridCellWithAttr *c2)

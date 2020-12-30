@@ -858,7 +858,7 @@ void wxGridCellAttrData::UpdateAttrCols( size_t pos, int numCols )
 
 int wxGridCellAttrData::FindIndex(int row, int col) const
 {
-    wxGridCellWithAttr attr(row, col, NULL);
+    wxGridCellWithAttr attr(row, col);
     return m_attrs.Index(&attr, CompareGridCellWithAttr);
 }
 
