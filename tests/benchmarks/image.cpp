@@ -90,3 +90,67 @@ BENCHMARK_FUNC(ShrinkHighQuality)
 {
     return GetTestImage().Scale(50, 50, wxIMAGE_QUALITY_HIGH).IsOk();
 }
+
+#include "wx/frame.h"
+#include "wx/grid.h"
+#ifdef _DEBUG
+#pragma comment (lib, "wxmsw31ud_adv.lib")
+#else
+#pragma comment (lib, "wxmsw31u_adv.lib")
+#endif
+
+namespace
+{
+
+wxGrid *gs_grid = NULL;
+int gs_numRows = 100;
+int gs_numCols = 100;
+
+bool InitBareGrid()
+{
+    wxFrame *frame = new wxFrame(NULL, wxID_ANY, "");
+
+    gs_grid = new wxGrid(frame, wxID_ANY);
+
+    gs_grid->CreateGrid(gs_numRows, gs_numCols);
+
+    return true;
+}
+
+bool InitCheckeredGrid()
+{
+    InitBareGrid();
+
+    for (int row=0; row<gs_numRows; ++row)
+    {
+        for (int col=0; col<gs_numCols; ++col)
+        {
+            if ((row ^ col) & 1)
+                gs_grid->SetCellBackgroundColour(row, col, *wxLIGHT_GREY);
+        }
+    }
+
+    return true;
+}
+
+} // anonymous namespace
+
+bool RunGridMoveBenchmark()
+{
+    static bool s_MoveToEnd = false;
+    s_MoveToEnd = !s_MoveToEnd;
+
+    gs_grid->GoToCell(s_MoveToEnd * (gs_numRows - 1), s_MoveToEnd * (gs_numCols - 1));
+
+    return true;
+}
+
+BENCHMARK_FUNC_WITH_INIT(BareGridMove, InitBareGrid, NULL)
+{
+    return RunGridMoveBenchmark();
+}
+
+BENCHMARK_FUNC_WITH_INIT(CheckeredGridMove, InitCheckeredGrid, NULL)
+{
+    return RunGridMoveBenchmark();
+}
