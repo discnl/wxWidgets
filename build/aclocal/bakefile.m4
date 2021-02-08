@@ -1013,7 +1013,7 @@ while test ${D}{#} -gt 0; do
                 headerfile="${D}{incdir}/${D}{header}"
             fi
         ;;
-        -use-pch|-use_pch|-pch-use )
+        -use-pch|-use_pch|-pch-use|-include-pch )
             shift
             add_to_cmdline=0
         ;;
